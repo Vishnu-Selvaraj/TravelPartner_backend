@@ -1,0 +1,83 @@
+{% extends 'layout/base_layout.html' %}
+
+{% block title %} Email {% endblock %}
+
+
+{% block style %}
+
+<style>
+
+.mailLogo{
+    margin-top: 15px;
+    width: 50px;
+    height: 50px;
+}
+
+.mainLogoDiv{
+    display: flex;
+}
+
+.mainLogoDiv .heading{
+
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-weight: 500;
+    font-size: large;
+}
+
+.bookingHeading{
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+</style>
+
+{% endblock %} 
+
+{% block content %}
+
+<div class="container-fluid">
+    {% if bookingData %}
+  <div class="row mt-3">
+    <div class="col mainLogoDiv">
+        <img src="http://127.0.0.1:8000/media/uploads/images/airplane.png" alt="logo" class="mailLogo"><span class="heading">TRAVEL PARTNER</span>
+    </div>
+</div>
+<hr class="bg-info">
+<div class="row">
+    <div class="col-12">
+        Dear {{bookingData.user.name}},
+        <p class="pl-2">Thank you for booking with us.</p>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-12">
+        <h5 class="bookingHeading">Booking Details</h5>
+    </div>
+    <div class="col-12 mt-4">
+        <table class="table">
+            <tr class="text-center">
+                <th>Place</th>
+                <th>Booking ID</th>
+                <th>No of Guests</th>
+                <th>Booking Date</th>
+            </tr>
+            <tr class="text-center">
+                <td>{{bookingData.tour.place_name}}</td>
+                <td>{{bookingData.booking_id}}</td>
+                <td>{{bookingData.number_of_persons}}</td>
+                <td>{{bookingData.trip_start_date}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-12 mt-5">
+        <p class="text-center">We are eagerly looking forword to your arrival.we will provide you with the best services during your travel.</p>
+        
+    </div>
+</div>
+{% endif %}
+</div>
+{% endblock %}

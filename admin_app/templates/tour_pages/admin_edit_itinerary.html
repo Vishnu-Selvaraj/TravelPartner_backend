@@ -1,0 +1,68 @@
+{% extends 'layout/base_layout.html' %}
+
+{% block title %} Add tour plans {% endblock %}
+   
+{% block style %}
+    <style>
+        body {
+            background-image: linear-gradient(to right top, #111111, #121019, #111020, #0f0f27, #0a0f2e);
+            min-height: 100vh;
+            
+      }
+
+      .container{
+        padding-top: 80px;
+      }
+
+        #add-btn:hover{
+            opacity: 0.9;
+        }
+    #createCard{
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px #111;
+
+    }
+
+    #addItineraryForm{
+        display: flex;
+        justify-content: center;
+    }
+
+    </style>
+
+{% endblock %} 
+
+{% block content %}
+{% include 'partials/navbar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-9 mx-auto" id="card">
+                <div class="card py-3" id="createCard">
+                    <div class="card-body">
+                        <h1 class="card-title text-center font-weight-bold mb-4" style="color: #7d78ea;">EDIT ITINERARY</h1>
+                        {% include 'partials/alert.html' %}
+                        {% if itinerary_instance %}
+                        {% for data in itinerary_instance %}
+                        <form class="form-group" method="post" enctype="multipart/form-data">
+                             {% csrf_token %}
+                            <label for="day">Day:</label>
+                                <input type="day" class="form-control mb-3" name="day" id="day" placeholder="Enter place name" value="{{data.day}}">
+                            <label for="activity">Activity:</label>
+                                <textarea class="form-control mb-3" rows="3" name="activity" id="activity" placeholder="Enter description">{{data.activities}}</textarea>
+                                <div class="text-center" id="btn-group">
+                                    <button id="add-btn" class="btn text-white mx-5" style="background-color: #7d78ea;padding: 5px 40px;  border-radius: 10px;">Save</button>
+                                    <a href="{% url 'get_tour_list' %}" class="btn btn-danger text-white mx-3" style="padding: 5px 30px; border-radius: 10px;">Cancel</a>
+                                </div>
+                            </form>
+                        {% endfor %}
+                        {% else %}
+                            <p class="h5 text-center font-weight-bold">No data Found</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} 

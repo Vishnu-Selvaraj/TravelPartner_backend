@@ -1,0 +1,78 @@
+<script>
+    // This code is used to shpw active class in navbar
+    $(document).ready(function () {
+      $("li.active").removeClass("active").removeAttr("aria-current");
+      $('a[href="' + location.pathname + '"]')
+        .closest("li")
+        .addClass("active")
+        .attr("aria-current", "page");
+    });
+  </script>
+<style>
+    #navbar{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1 !important;
+        backdrop-filter: blur(15px) !important; 
+        box-shadow: 0px 0px 15px #191919;  
+    }
+    #navbar ul li .nav-link{
+        border-radius: 10px;
+        padding: 4px 10px;
+        transition: all 0.5s ease-in-out;
+    }
+    #navbar ul li .nav-link:hover {
+          border-radius: 10px;
+          padding: 4px 10px;
+          color: #fff !important ;
+          background-color: rgba(78, 107, 236, 0.65);
+          box-shadow: 0px 0px #fff;
+        }
+        #navbar ul li.active .nav-link {
+          border-radius: 10px;
+          padding: 4px 10px;
+          color: #fff !important ;
+          background-color: rgba(78, 107, 236, 0.65);
+          box-shadow: 0px 0px #fff;
+        }
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
+    <a class="navbar-brand" href="{% url 'login' %}">Online Tour Booking</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item mr-md-2 mb-2 mb-lg-0">
+          <a class="nav-link" href="{% url 'login' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item mr-md-2 mb-2 mb-lg-0">
+          <a class="nav-link" href="{% url 'get_tour_list' %}">Tour List</a>
+        </li>
+        <li class="nav-item mr-md-2 mb-2 mb-lg-0">
+          <a class="nav-link" href="{% url 'get_all_user_details' %}">User List</a>
+        </li>
+        <li class="nav-item mr-md-2  mb-2 mb-lg-0">
+            <a class="nav-link" href="{% url 'change_password' %}">Change password</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            Dropdown link
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li> -->
+        {% if user.is_authenticated %}
+        <li class="nav-item mb-2 mb-lg-0">
+            <a class="nav-link" href="{% url 'admin_logout' %}">Logout</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>

@@ -1,0 +1,124 @@
+{% extends 'layout/base_layout.html' %}
+
+{% block title %} Detailed List {% endblock %}
+
+{% block style %}
+
+    <style>
+      body {
+        background-image: linear-gradient(to right top, #111111, #121019, #111020, #0f0f27, #0a0f2e);
+        height: 100vh;
+      }
+
+      .container-fluid{
+        padding-top: 80px;
+      }
+
+      #table{
+        background-color:rgba(255, 255, 255, 0.1);
+      }
+
+      
+      .pagination .page-item .page-link{
+        background: transparent;
+        border: none;
+        backdrop-filter: blur(10px);
+        box-shadow: 0px 0px 1px #fff;
+        color: #fff;
+        transition: all 0.5s ease-in-out;
+      }
+      .pagination .page-item .page-link:hover{
+          background: #fff;
+          font-weight: 400;
+          color: #169de7;
+          cursor: pointer;
+      }
+
+    </style>
+ {% endblock %}
+
+ {% block content %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 my-3 mx-auto">
+          <h1 class="text-center text-white">User Bookings</h1>
+        </div>
+      </div>
+      <div class="row">
+
+        <!--Iser Bookings-->
+
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered " id="table">
+              <thead>
+                <tr class="text-center h4">
+                    <th class="text-primary" colspan="6">Bookings</th>
+                </tr>
+                <tr class="text-center h4 text-secondary">
+                  <th>Plans</th>
+                  <th>Booking ID</th>
+                  <th>No of Guests</th>
+                  <th>Total price</th>
+                  <th>Trip Start Date</th>
+                  <th>Booking Date</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if user_bookings %}
+                {% for bookings in user_bookings %}
+                <tr class="text-center text-white">
+                  <td class="h6">{{bookings.tour.place_name}}</td>
+                  <td class="h6">{{bookings.booking_id}}</td>
+                  <td class="h6">{{bookings.number_of_persons}}</td>
+                  <td class="h6">{{bookings.total_price}}</td>
+                  <td>{{bookings.trip_start_date|date:"d-m-Y"}}</td>
+                  <td>{{bookings.created_at|date:"d-m-Y"}}</td>
+
+                </tr>
+                {% endfor %}
+                  {% else %}
+                  <tr class="text-center">
+                    <td colspan="2" class="h6">No subscriptions for this user.</td>  
+                  </tr>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <nav aria-label="Page navigation example" style="margin:auto;" >
+                <ul class="pagination pagination-sm justify-content-center">
+                {% if user_subscription_page_obj.has_previous %}
+                
+                <li class="page-item"><a href="?page=1" class="page-link">&laquo; first</a></li>
+                <li class="page-item"><a href="?page={{ user_bookings.previous_page_number }}" class="page-link" aria-label="previous">&laquo; previous</a></li>
+                {% endif %}
+                
+                {% for page_number in user_bookings.paginator.get_elided_page_range %}
+                {% if user_bookings.number == page_number %}
+                <li class="page-item"><span class="page-link">{{ page_number }}</span></li>
+                {% else %}
+                <li class="page-item"><a href="?page={{ page_number }}" class="page-link">{{ page_number }}</a></li>
+                {% endif %}
+                {% endfor %}
+                
+                {% if user_bookings.has_next %}
+                <li class="page-item"><a href="?page={{ user_bookings.next_page_number }}" class="page-link">next &raquo;</a></li>
+                <li class="page-item"><a href="?page={{ user_bookings.paginator.num_pages }}" class="page-link">last &raquo;</a></li>
+                
+                {% endif %}
+                </ul>
+                </nav>            
+            </div>
+          </div>
+        </div>
+
+          <!--History Details ends -->
+        <div class="col text-center mt-3">
+          <a href="{% url 'get_all_user_details' %}" class="btn btn-danger btn-sm" style="border-radius: 15px;">Back to list</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pdf</title>
+    <style>
+     
+      .mailLogo {
+        margin-top: 15px;
+        width: 50px;
+        height: 50px;
+      }
+
+      .mainLogoDiv {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .heading {
+        
+        display: inline-block;
+        height: 10px;
+        font-weight: 600;
+        font-size: large;
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+
+      .bookingHeading {
+        text-align: center;
+        text-transform: uppercase;
+        text-decoration: underline;
+        margin-top: 10px;
+      }
+
+      .contentPara{
+        text-indent: 10px;
+        line-height: 0.1;
+      }
+
+      .table{
+        margin: 0px auto;
+      }
+
+      td,th{
+        border: 1px solid #bbb;
+        border-collapse: collapse;
+        text-align: center;
+        padding: 8px;
+
+      }
+
+      .footer{
+        text-align: center;
+        line-height:6 ;
+        font-size: small;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      {% if Booking_details %}
+      <div class="row">
+        <div class="col mainLogoDiv">
+          <img
+            src="http://127.0.0.1:8000/media/uploads/images/airplane.png"
+            alt="logo"
+            class="mailLogo"
+          /><h4 class="heading">TRAVEL PARTNER</h4>
+        </div>
+      </div>
+      <hr class="bg-info" />
+      <div class="row">
+        <div class="col-12">
+          Dear {{Booking_details.user.name}},
+          <p class="contentPara">Thank you for booking with us.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <h1 class="bookingHeading">Booking Details</h1>
+        </div>
+        <div>
+          <table class="table">
+            <tr class="table-row">
+              <th>Place</th>
+              <th>Booking ID</th>
+              <th>No of Guests</th>
+              <th>Booking Date</th>
+            </tr>
+            <tr class="table-row">
+              <td>{{Booking_details.tour.place_name}}</td>
+              <td style="text-align: center;">{{Booking_details.booking_id}}</td>
+              <td>{{Booking_details.number_of_persons}}</td>
+              <td>{{Booking_details.trip_start_date}}</td>
+            </tr>
+          </table>
+        </div>
+        <hr style="margin-top: 100px;">
+        <div class="footer">
+          <p>
+            We are eagerly looking forward to your arrival.we will provide you
+            with the best services during your travel.
+          </p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

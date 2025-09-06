@@ -1,0 +1,149 @@
+{% extends 'layout/base_layout.html' %}
+
+{% block title %} Add tour plans {% endblock %}
+   
+{% block style %}
+    <style>
+        body {
+            background-image: linear-gradient(to right top, #111111, #121019, #111020, #0f0f27, #0a0f2e);
+            min-height: 100vh;
+            
+      }
+
+      .container{
+        padding-top: 60px;
+      }
+
+        /* #card{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        } */
+
+        #add-btn:hover{
+            opacity: 0.9;
+        }
+    #createCard{
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px #111;
+
+    }
+
+    #addItineraryForm{
+        display: flex;
+        justify-content: center;
+    }
+
+    </style>
+
+{% endblock %} 
+
+{% block content %}
+{% include 'partials/navbar.html' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-10 mx-auto" id="card">
+                <div class="card py-3" id="createCard">
+                    <div class="card-body">
+                        <h1 class="card-title text-center font-weight-bold mb-4" style="color: #7d78ea;">ADD TOUR PLANS</h1>
+                        {% include 'partials/alert.html' %}
+                        <form class="form-group" method="post" enctype="multipart/form-data">
+                             {% csrf_token %}
+
+                            <label for="placeName">Place Name:</label>
+                                <input type="text" class="form-control mb-3" name="placeName" id="placeName" placeholder="Enter place name">
+                            <label for="description">Description:</label>
+                                <textarea class="form-control mb-3" rows="3" name="description" id="description" placeholder="Enter description"></textarea>
+                                <!-- <label for="Itinerary">Itinerary:</label>
+                                <textarea class="form-control mb-3" rows="3" name="Itinerary" id="Itinerary" placeholder="Enter Itinerary"></textarea> -->
+                                <label for="tripDays">No of days:</label>
+                                    <input type="number" class="form-control mb-4 col-8" name="tripDays" id="tripDays" min="1" placeholder="Enter the total number of trip Days">
+                                <label for="price">Price:</label>
+                                    <input type="number" class="form-control mb-4 col-8" name="price" id="price" min="1" placeholder="Enter price">
+                                <label for="thumbnail">Image:</label>
+                                <input type="file" class="ml-3 mb-4" name="image" id="image"><br>
+                                
+                                <!-- <h2 class="text-center"  style="color: #7d78ea;">ADD ITINERARY</h2>
+                                {{itinerary_Form.management_form}}
+    
+                                    <div id="itineraryFormContainer">
+                                        {% for form in itinerary_Form %}
+                                        
+                                    <div  class="itinerary-form-wrapper">
+                                        {{form}}
+                                    </div>
+                                        
+                                    {% endfor %}
+                                    </div>
+                                
+                                    <div id="addItineraryForm">
+                                        <button id="addForm" class="btn btn-success btn-sm btn-block mb-3">Add</button>
+                                    </div> -->
+                                <div class="text-center" id="btn-group">
+                                
+                                    <button id="add-btn" class="btn text-white mx-5" style="background-color: #7d78ea;padding: 5px 40px;  border-radius: 10px;">Add</button>
+                                    <a href="{% url 'get_tour_list' %}" class="btn btn-danger text-white mx-3" style="padding: 5px 30px; border-radius: 10px;">Cancel</a>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- <script>
+
+    var addFormBtn = document.getElementById('addForm');
+    var itineraryFormsContainer = document.getElementById('itineraryFormContainer');
+
+    var input = document.getElementById('id_itinerary_set-0-day')
+
+    input.className = 'form-control mb-3'
+    
+    var textarea = document.getElementById('id_itinerary_set-0-activities')
+    textarea.className = 'form-control mb-3'
+    textarea.rows = '3'
+
+    addFormBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+
+    
+        // Get the current number of forms (based on management form)
+        var formCount = itineraryFormsContainer.getElementsByClassName('itinerary-form-wrapper').length;
+
+        // Clone the first form in the container
+        var firstFormWrapper = itineraryFormsContainer.querySelector('.itinerary-form-wrapper');
+        var newFormWrapper = firstFormWrapper.cloneNode(true); // Clone the form wrapper
+
+        // Clear the inputs in the cloned form
+        var inputs = newFormWrapper.getElementsByTagName('input');
+        for (var input of inputs) {
+            input.value = ''; // Clear the input field
+            var inputName = input.name;
+            input.name = inputName.replace('-0-', `-${formCount}-`);
+        }
+
+        var textareas = newFormWrapper.getElementsByTagName('textarea');
+        for (var textarea of textareas) {
+            textarea.value = ''; // Clear the textarea field
+            var textareaName = textarea.name;
+            textarea.name = textareaName.replace('-0-', `-${formCount}-`);
+        }
+
+        // Append the cloned form to the container
+        itineraryFormsContainer.appendChild(newFormWrapper);
+
+        // Update the management form to reflect the new form count
+        updateManagementForm(formCount + 1);
+    });
+
+    function updateManagementForm(formCount) {
+        var totalForms = document.getElementById('id_itinerary_set-TOTAL_FORMS');
+        totalForms.value = formCount; // Update the total forms count
+    }
+
+</script> -->
+
+{% endblock %} 

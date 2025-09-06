@@ -1,0 +1,159 @@
+{% extends 'layout/base_layout.html' %}
+
+{% block title %} User List {% endblock %}
+       
+{% block style %}
+    <style>
+      body {
+        background-image: linear-gradient(to right top, #111111, #121019, #111020, #0f0f27, #0a0f2e);
+        height: 100vh;
+      }
+
+      .container{
+        padding-top: 80px;
+      }
+
+      #table{
+        background-color:rgba(255, 255, 255, 0.1);
+      }
+
+      
+      .pagination .page-item .page-link{
+        background: transparent;
+        border: none;
+        backdrop-filter: blur(10px);
+        box-shadow: 0px 0px 1px #fff;
+        color: #fff;
+        transition: all 0.5s ease-in-out;
+      }
+      .pagination .page-item .page-link:hover{
+          background: #fff;
+          font-weight: 400;
+          color: #169de7;
+          cursor: pointer;
+      }
+
+    </style>
+ {% endblock %}
+
+ {% block content %}
+
+{% include 'partials/navbar.html' %}
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          {% include 'partials/alert.html' %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 my-3 mx-auto">
+          <h1 class="text-center text-white">User List</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-11 col-sm-11">
+          <form class="form-inline ml-3" style="display: flex; justify-content: end">
+            <input
+              type="text"
+              class="form-control form-control-sm my-2 my-sm-0 col-9 col-md-4"
+              placeholder="Enter the user name/email id"
+              name = 'search_name'
+            />
+             <!--if a term searched it will be true so reset btn showned else search btn showned-->
+            {% if is_clicked_search_btn %}
+              <button
+              type="submit"
+              class="btn btn-danger btn-sm ml-2"
+              style="border-radius: 15px;padding: 4px 18px;"
+              >
+                Reset
+              </button>
+            {% else %}
+            <button
+            type="submit"
+            class="btn btn-primary btn-sm ml-2"
+            style="border-radius: 15px;padding: 4px 13px;"
+          >
+            Search
+          </button>
+
+          {% endif %}
+
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10 mx-auto">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered table-light" id="table">
+              <thead>
+                <tr class="text-center h4" style="color: #169de7;">
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-body" >
+              {% if users_data %}
+                {% for user in users_data %}
+                <tr class="text-center text-white">
+                  <td class="h6"><a href="{% url 'admin_view_get_all_user_bookings' user.id %}">{{user.name}}</a></td>
+                  <td>{{user.email}}</td>
+                  
+                  <!--Check if user is blocked or unblocked based on randomly shows the buttons-->
+                  {% if user.is_blocked %}
+                  <td><a href="{% url 'user_block_or_unblock' user.id %}" class="btn btn-sm btn-success" style="padding: 4px 10px; border-radius: 20px;">Unblock</a></td>
+                  {% else %}
+                  <td><a href="{% url 'user_block_or_unblock' user.id %}" class="btn btn-sm btn-danger" style="padding: 4px 20px; border-radius: 20px;">Block</a></td>
+                  {% endif %}
+                  <!--Ends here block/Unblock-->
+                
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr class="text-center">
+                  <td colspan="3" class="h6 text-danger">No User data Found</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <div class="row">
+      <div class="col">
+        <nav aria-label="Page navigation example" style="margin:auto;" >
+          <ul class="pagination pagination-sm justify-content-center">
+          {% if users_data.has_previous %}
+          
+          <li class="page-item"><a href="?page=1" class="page-link">&laquo; first</a></li>
+          <li class="page-item"><a href="?page={{ users_data.previous_page_number }}" class="page-link" aria-label="previous">&laquo; previous</a></li>
+          {% endif %}
+          
+          {% for page_number in users_data.paginator.get_elided_page_range %}
+          {% if users_data.number == page_number %}
+          <li class="page-item"><span class="page-link">{{ page_number }}</span></li>
+          {% else %}
+          <li class="page-item"><a href="?page={{ page_number }}" class="page-link">{{ page_number }}</a></li>
+          {% endif %}
+          {% endfor %}
+          
+          {% if users_data.has_next %}
+          <li class="page-item"><a href="?page={{ users_data.next_page_number }}" class="page-link">next &raquo;</a></li>
+          <li class="page-item"><a href="?page={{ users_data.paginator.num_pages }}" class="page-link">last &raquo;</a></li>
+          
+          {% endif %}
+          </ul>
+          </nav>            
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

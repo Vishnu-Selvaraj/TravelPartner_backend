@@ -1,0 +1,89 @@
+{% extends 'layout/base_layout.html' %}
+
+{% block title %} Login {% endblock %}
+
+
+{% block style %}
+<style>
+  body {
+    background-image: linear-gradient(
+      to right top,
+      #98bdff,
+      #94c5ff,
+      #92cdff,
+      #94d4ff,
+      #98dbff
+    );
+    height: 100vh;
+  }
+
+  #card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #loginCardBody {
+    border-radius: 15px;
+    box-shadow: 0px 0px 5px #111;
+  }
+
+  #loginBtn {
+    background-color: #4b49ac;
+    border-radius: 50px;
+    transition: all 0.5s ease-in-out;
+  }
+
+  #loginBtn:hover {
+    background-color: rgb(34, 41, 113);
+  }
+</style>
+{% endblock %} 
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-8 mx-auto" id="card">
+      <div class="card py-3" id="loginCardBody">
+        <div class="card-body">
+          <h1
+            class="card-title text-center font-weight-bold"
+            style="color: #283080"
+          >
+            Login
+          </h1>
+          {% include 'partials/alert.html' %}
+          <form method="post" action="/" class="form-group">
+            {% csrf_token %}
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              class="form-control mb-4"
+              name="email"
+              id="email"
+              placeholder="Enter your email"
+            />
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              class="form-control mb-4"
+              name="password"
+              id="password"
+              placeholder="Enter your password"
+            />
+            <button id="loginBtn" class="btn btn-block text-white">
+              Login
+            </button>
+          </form>
+          <a
+            href="admin_forgot_password_page.html"
+            class="card-link d-flex justify-content-center"
+            >Forgot password?</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
