@@ -88,7 +88,7 @@ DATABASES = {
     }
 }
 
-db_url = env("DATABASE_URL")
+db_url = env.str("DATABASE_URL")
 if db_url:
     DATABASES["default"] = dj_database_url.config(
         env=db_url,
