@@ -88,10 +88,10 @@ DATABASES = {
     }
 }
 
-db_url = env("DATABASE_URL")
+db_url = env("DATABASE_URL",default=None)
 if db_url:
     DATABASES["default"] = dj_database_url.config(
-        env=env('DATABASE_URL'),
+        default=db_url,
         conn_max_age=600,
         conn_health_checks=True,
     )
