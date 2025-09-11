@@ -55,6 +55,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    "https://travelpartner-yw9z.onrender.com"
 ]
 
 ROOT_URLCONF = 'online_tour_booking_backend.urls'
