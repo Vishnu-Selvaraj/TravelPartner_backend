@@ -37,6 +37,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 AUTH_USER_MODEL = 'user_api.User'
@@ -57,6 +60,14 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     "https://travelpartner-yw9z.onrender.com"
 ]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY':  env('API_KEY'),
+    'API_SECRET': env('API_SECRET'),
+}
 
 ROOT_URLCONF = 'online_tour_booking_backend.urls'
 
@@ -142,19 +153,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
-if DEBUG:
-    STATIC_URL = 'static/'
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-else:
-    STATIC_URL = 'static/'
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-    
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
