@@ -259,7 +259,7 @@ def add_itinerary(request,tour_id):
             messages.error(request,'please fill both fields')
             return redirect(f'/add-tour-plans-itinerary/{tour_id}')
 
-        no_of_itineraries_added = Itinerary.objects.filter(tour = tour_id).aggregate(count = Count(id)).get('count')   
+        no_of_itineraries_added = Itinerary.objects.filter(tour = tour_id).aggregate(count = Count("id")).get('count')   
         
         #This condition to check whether the number of total trip days is equal to the no_of_itineraries_added in Itinerary table
         if no_of_itineraries_added >= instance.total_trip_days:
