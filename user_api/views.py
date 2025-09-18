@@ -274,17 +274,19 @@ def add_user_bookings(request,tour_id):
 
     booking_instance_serializer = CreateUserbookingsSerializer(data = request.data)
     if booking_instance_serializer.is_valid():
-        bookingId = ''.join(random.choices(string.ascii_uppercase + string.digits,k=10))
+        bookingId = ''.join(random.choices(string.ascii_uppercase + string.digits,k=8))
 
         #Check whether the booking id already exists or not
         if UserBookings.objects.filter(booking_id__exact = bookingId).exists():
-            bookingId = ''.join(random.choices(string.ascii_uppercase + string.digits,k=10))
+            bookingId = ''.join(random.choices(string.ascii_uppercase + string.digits,k=8))
         #Check whether user provided phone number or not
         if not user.phone_number:
             return Response({'error':'Phone number not provided.'},status= status.HTTP_400_BAD_REQUEST)
         else:
+            print('Called')
             booking_instance_serializer.save(tour = tour_instance,user = user,booking_id = bookingId)
             send_confirmation_mail(user,tour_id)
+
             return Response({'message':'Booking added successfully.'},status=status.HTTP_201_CREATED)
     else:
         return Response({'error':booking_instance_serializer.errors},status=status.HTTP_400_BAD_REQUEST)
@@ -339,7 +341,7 @@ def check_user_booking_upcoming_or_not(user,user_select_option):
     previous_trips = []
     
     if len(all_user_bookings) == 0:
-        return False
+        return []
     else:
         for data in all_user_bookings:
             today_date = timezone.now()
@@ -369,7 +371,6 @@ def get_all_user_bookings(requset,user_select_option):
     user = requset.user
     trip_data = check_user_booking_upcoming_or_not(user,user_select_option)
     user_booking_tour_data = [data.tour for data in trip_data]
-
     if not trip_data:
         return Response({'error':'No bookings found'},status= status.HTTP_400_BAD_REQUEST)
     else:
